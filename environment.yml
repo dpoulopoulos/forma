@@ -1,0 +1,9 @@
+name: forma
+channels:
+- defaults
+dependencies:
+- jupyter
+- pandas
+- pip
+- nltk
+- tqdm
