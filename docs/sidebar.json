@@ -1,5 +1,7 @@
 {
   "forma": {
-    "Overview": "/"
+    "Overview": "/",
+    "Judge": "/judge",
+    "Utils": "/utils"
   }
 }

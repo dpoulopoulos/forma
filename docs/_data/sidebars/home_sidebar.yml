@@ -9,6 +9,12 @@ entries:
     - output: web,pdf
       title: Overview
       url: /
+    - output: web,pdf
+      title: Judge
+      url: /judge
+    - output: web,pdf
+      title: Utils
+      url: /utils
     output: web
     title: forma
   output: web
