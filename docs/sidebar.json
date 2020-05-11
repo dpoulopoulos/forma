@@ -1,6 +1,7 @@
 {
   "forma": {
     "Overview": "/",
+    "Detector": "/detector",
     "Judge": "/judge",
     "Utils": "/utils"
   }

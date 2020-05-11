@@ -24,7 +24,7 @@ class FormatJudge:
         self.n = n
 
     def __call__(self, o: Any) -> list:
-        return self.judge(o, level)
+        return self.judge(o)
 
     def fit(self, values: List[Any]):
         patterns = [self.generator(v) for v in values]

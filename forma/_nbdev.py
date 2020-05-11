@@ -2,10 +2,12 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"FormatJudge": "judge.ipynb",
+index = {"FormatDetector": "detector.ipynb",
+         "FormatJudge": "judge.ipynb",
          "PatternGenerator": "utils.ipynb"}
 
-modules = ["judge.py",
+modules = ["detector.py",
+           "judge.py",
            "utils.py"]
 
 doc_url = "https://dpoulopoulos.github.io/forma/"
