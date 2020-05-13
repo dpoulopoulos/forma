@@ -19,28 +19,32 @@ from .utils import PatternGenerator
 class FormatJudge:
     """Detects format errors on a tabular data set."""
 
-    def __init__(self, generator: PatternGenerator, n: int = 1):
+    def __init__(self, generator: PatternGenerator, n: int = 3, dim: int = 1):
         self.generator = generator
         self.n = n
+        self.dim = dim
 
     def __call__(self, o: Any) -> list:
         return self.judge(o)
 
     def fit(self, values: List[Any]):
         patterns = [self.generator(v) for v in values]
-        padded_patterns = [pad_both_ends(p, n=3) for p in patterns]
-        trigrams = [ngrams(pp, n=3) for pp in padded_patterns]
+        padded_patterns = [pad_both_ends(p, n=self.n) for p in patterns]
+        ngrams_ = [ngrams(pp, n=self.n) for pp in padded_patterns]
 
-        self.vocab = list(flatten(pad_both_ends(p, n=2) for p in patterns))
-        self.model = MLE(3)
-        self.model.fit(trigrams, self.vocab)
+        self.vocab = list(flatten(pad_both_ends(p, n=self.n) for p in patterns))
+        self.model = MLE(self.n)
+        self.model.fit(ngrams_, self.vocab)
 
     def judge(self, o: Any) -> list:
         scores = []
         p = self.generator(o)
-        p = list(pad_both_ends(p, n=3))
+        p = list(pad_both_ends(p, n=self.n))
         for i,v in enumerate(p):
-            if i < 2:
+            if i < self.n-1:
                 continue
-            scores.append(self.model.score(v, [p[i-2], p[i-1]]))
+            letters = []
+            for j in range(self.n-1, 0, -1):
+                letters.append(p[i-j])
+            scores.append(self.model.score(v, letters))
         return scores

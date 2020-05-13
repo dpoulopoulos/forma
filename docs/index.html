@@ -193,7 +193,7 @@ description: "Automatic format error detection on tabular data."
 <span class="c1"># initialize detector</span>
 <span class="n">detector</span> <span class="o">=</span> <span class="n">FormatDetector</span><span class="p">()</span>
 <span class="c1"># fit detector</span>
-<span class="n">detector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ratings_df</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span> <span class="n">PatternGenerator</span><span class="p">(</span><span class="n">other</span><span class="o">=</span><span class="s1">&#39;leaf&#39;</span><span class="p">))</span>
+<span class="n">detector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ratings_df</span><span class="p">,</span> <span class="n">PatternGenerator</span><span class="p">(</span><span class="n">other</span><span class="o">=</span><span class="s1">&#39;leaf&#39;</span><span class="p">))</span>
 <span class="c1"># detect error probability</span>
 <span class="n">assessed_df</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">detect</span><span class="p">()</span>
 
@@ -211,86 +211,9 @@ description: "Automatic format error detection on tabular data."
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 4/4 [00:00&lt;00:00, 222.64it/s]
+<pre>100%|██████████| 4/4 [03:08&lt;00:00, 47.07s/it]
 </pre>
 </div>
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>user_id</th>
-      <th>movie_id</th>
-      <th>rating</th>
-      <th>timestamp</th>
-      <th>p</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>1193</td>
-      <td>5</td>
-      <td>978300760</td>
-      <td>0.041667</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>661</td>
-      <td>3</td>
-      <td>978302109</td>
-      <td>0.128333</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1</td>
-      <td>914</td>
-      <td>3</td>
-      <td>978301968</td>
-      <td>0.128333</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1</td>
-      <td>3408</td>
-      <td>4</td>
-      <td>978300275</td>
-      <td>0.041667</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1</td>
-      <td>2355</td>
-      <td>5</td>
-      <td>978824291</td>
-      <td>0.041667</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
 </div>
 
 </div>

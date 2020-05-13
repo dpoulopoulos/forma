@@ -3,8 +3,8 @@
 __all__ = ['FormatDetector']
 
 # Cell
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from typing import Any
 from tqdm import tqdm
@@ -17,14 +17,14 @@ class FormatDetector:
     def __init__(self):
         pass
 
-    def fit(self, df: pd.DataFrame, generator: PatternGenerator, n: int = 1):
+    def fit(self, df: pd.DataFrame, generator: PatternGenerator, n: int = 3, dim: int = 1):
         self.judges = {}
 
         self.df = df
         with tqdm(total=len(self.df.columns)) as pbar:
             for col in self.df.columns:
                 col_values = self.df[col].tolist()
-                format_judge = FormatJudge(generator, n)
+                format_judge = FormatJudge(generator, n, dim)
                 format_judge.fit(col_values)
                 self.judges[col] = format_judge
                 pbar.update(1)
