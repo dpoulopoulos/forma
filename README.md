@@ -93,20 +93,111 @@ ratings_df.head()
 
 
 
-Initialize the detector, fit and detect. The returned result is a pandas DataFrame with an extra column `p`, which records the probability of a format error being present in the row.
+Let us introduce some random mistakes.
+
+```python
+# local
+dirty_df = ratings_df.astype('str').copy()
+
+dirty_df.iloc[3]['timestamp'] = '9783000275'
+dirty_df.iloc[2]['movie_id'] = '914.'
+dirty_df.iloc[4]['rating'] = '10'
+```
+
+Initialize the detector, fit and detect. The returned result is a pandas DataFrame with an extra column `p`, which records the probability of a format error being present in the row. We see that the probability for the tuples where we introduced random artificial mistakes is increased.
 
 ```python
 # local
 # initialize detector
 detector = FormatDetector()
 # fit detector
-detector.fit(ratings_df, PatternGenerator(other='leaf'))
+generators = {'user_id': PatternGenerator(other='leaf'),
+              'movie_id': PatternGenerator(other='leaf'),
+              'rating': PatternGenerator(other='leaf'),
+              'timestamp': PatternGenerator(other='leaf')}
+
+detector.fit(dirty_df, generator=generators, n=3)
 # detect error probability
-assessed_df = detector.detect()
+assessed_df = detector.detect(reduction=np.mean)
 
 # visualize results
 assessed_df.head()
 ```
 
-    100%|██████████| 4/4 [03:08<00:00, 47.07s/it]
+    100%|██████████| 4/4 [00:00<00:00, 158.06it/s]
+
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user_id</th>
+      <th>movie_id</th>
+      <th>rating</th>
+      <th>timestamp</th>
+      <th>p</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1193</td>
+      <td>5</td>
+      <td>978300760</td>
+      <td>0.06750</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>661</td>
+      <td>3</td>
+      <td>978302109</td>
+      <td>0.19750</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>914.</td>
+      <td>3</td>
+      <td>978301968</td>
+      <td>0.24413</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>3408</td>
+      <td>4</td>
+      <td>9783000275</td>
+      <td>0.31250</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>2355</td>
+      <td>10</td>
+      <td>978824291</td>
+      <td>0.31250</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 

@@ -6,7 +6,7 @@ __all__ = ['FormatDetector']
 import numpy as np
 import pandas as pd
 
-from typing import Any
+from typing import Any, Dict, Callable
 from tqdm import tqdm
 
 from .judge import FormatJudge
@@ -17,19 +17,28 @@ class FormatDetector:
     def __init__(self):
         pass
 
-    def fit(self, df: pd.DataFrame, generator: PatternGenerator, n: int = 3, dim: int = 1):
+    def fit(self, df: pd.DataFrame, generator: PatternGenerator or List['str': PatternGenerator],
+            n: int = 3, dim: int = 1):
         self.judges = {}
 
         self.df = df
         with tqdm(total=len(self.df.columns)) as pbar:
-            for col in self.df.columns:
-                col_values = self.df[col].tolist()
-                format_judge = FormatJudge(generator, n, dim)
-                format_judge.fit(col_values)
-                self.judges[col] = format_judge
-                pbar.update(1)
+            if isinstance(generator, PatternGenerator):
+                for col in self.df.columns:
+                    col_values = self.df[col].tolist()
+                    format_judge = FormatJudge(generator, n, dim)
+                    format_judge.fit(col_values)
+                    self.judges[col] = format_judge
+                    pbar.update(1)
+            else:
+                for col, gen in generator.items():
+                    col_values = self.df[col].tolist()
+                    format_judge = FormatJudge(gen, n, dim)
+                    format_judge.fit(col_values)
+                    self.judges[col] = format_judge
+                    pbar.update(1)
 
-    def detect(self) -> dict:
+    def detect(self, reduction: Callable = np.min) -> dict:
         scores = []
 
         for index, row in self.df.iterrows():
@@ -37,7 +46,7 @@ class FormatDetector:
             for col in self.df.columns:
                 judge = self.judges[col]
                 tuple_score.append(np.mean(judge(row[col])))
-            scores.append(1 - np.min(tuple_score))
+            scores.append(1 - reduction(tuple_score))
         assessed_df = self.df.copy()
         assessed_df['p'] = scores
         return assessed_df
