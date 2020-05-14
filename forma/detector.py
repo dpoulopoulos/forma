@@ -31,8 +31,9 @@ class FormatDetector:
                     self.judges[col] = format_judge
                     pbar.update(1)
             else:
-                for col, gen in generator.items():
+                for col in self.df.columns:
                     col_values = self.df[col].tolist()
+                    gen = generator.get(col, PatternGenerator())
                     format_judge = FormatJudge(gen, n, dim)
                     format_judge.fit(col_values)
                     self.judges[col] = format_judge
