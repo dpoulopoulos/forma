@@ -41,12 +41,14 @@ class FormatDetector:
     def detect(self, reduction: Callable = np.min) -> dict:
         scores = []
 
-        for index, row in self.df.iterrows():
-            tuple_score = []
-            for col in self.df.columns:
-                judge = self.judges[col]
-                tuple_score.append(np.mean(judge(row[col])))
-            scores.append(1 - reduction(tuple_score))
+        with tqdm(total=len(self.df)) as pbar:
+            for index, row in self.df.iterrows():
+                tuple_score = []
+                for col in self.df.columns:
+                    judge = self.judges[col]
+                    tuple_score.append(np.mean(judge(row[col])))
+                scores.append(1 - reduction(tuple_score))
+                pbar.update(1)
         assessed_df = self.df.copy()
         assessed_df['p'] = scores
         return assessed_df

@@ -44,7 +44,7 @@ class FormatJudge:
             if i < self.n-1:
                 continue
             letters = []
-            for j in range(self.n-1, 0, -1):
-                letters.append(p[i-j])
+            for j in range(i - (self.n-1), i):
+                letters.append(p[j])
             scores.append(self.model.score(v, letters))
         return heapq.nsmallest(self.dim, scores)

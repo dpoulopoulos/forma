@@ -1,5 +1,3 @@
-![CI](https://github.com/dpoulopoulos/forma/workflows/CI/badge.svg)
-
 # Forma
 > Automatic format error detection on tabular data.
 
@@ -30,6 +28,19 @@ ratings_df.head()
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -100,12 +111,7 @@ Initialize the detector, fit and detect. The returned result is a pandas DataFra
 # initialize detector
 detector = FormatDetector()
 # fit detector
-generators = {'user_id': PatternGenerator(other='leaf'),
-              'movie_id': PatternGenerator(other='leaf'),
-              'rating': PatternGenerator(other='leaf'),
-              'timestamp': PatternGenerator(other='leaf')}
-
-detector.fit(dirty_df, generator=generators, n=3)
+detector.fit(dirty_df, generator= PatternGenerator(), n=3)
 # detect error probability
 assessed_df = detector.detect(reduction=np.mean)
 
@@ -113,13 +119,27 @@ assessed_df = detector.detect(reduction=np.mean)
 assessed_df.head()
 ```
 
-    100%|██████████| 4/4 [00:00<00:00, 158.06it/s]
+    100%|██████████| 4/4 [02:58<00:00, 44.58s/it]
+    100%|██████████| 1000209/1000209 [07:28<00:00, 2230.59it/s]
 
 
 
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -138,7 +158,7 @@ assessed_df.head()
       <td>1193</td>
       <td>5</td>
       <td>978300760</td>
-      <td>0.06750</td>
+      <td>0.319957</td>
     </tr>
     <tr>
       <th>1</th>
@@ -146,7 +166,7 @@ assessed_df.head()
       <td>661</td>
       <td>3</td>
       <td>978302109</td>
-      <td>0.19750</td>
+      <td>0.456679</td>
     </tr>
     <tr>
       <th>2</th>
@@ -154,7 +174,7 @@ assessed_df.head()
       <td>914.</td>
       <td>3</td>
       <td>978301968</td>
-      <td>0.24413</td>
+      <td>0.509287</td>
     </tr>
     <tr>
       <th>3</th>
@@ -162,7 +182,7 @@ assessed_df.head()
       <td>3408</td>
       <td>4</td>
       <td>9783000275</td>
-      <td>0.31250</td>
+      <td>0.550982</td>
     </tr>
     <tr>
       <th>4</th>
@@ -170,8 +190,10 @@ assessed_df.head()
       <td>2355</td>
       <td>10</td>
       <td>978824291</td>
-      <td>0.31250</td>
+      <td>0.569957</td>
     </tr>
   </tbody>
 </table>
 </div>
+
+
