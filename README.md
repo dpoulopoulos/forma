@@ -1,5 +1,3 @@
-![CI](https://github.com/dpoulopoulos/forma/workflows/CI/badge.svg)
-
 # Forma
 > Automatic format error detection on tabular data.
 
