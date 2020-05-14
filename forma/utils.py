@@ -3,7 +3,7 @@
 __all__ = ['PatternGenerator']
 
 # Cell
-import pandas as pd
+import re
 
 from typing import Tuple, Any
 from itertools import groupby
@@ -13,21 +13,31 @@ from collections import defaultdict
 class PatternGenerator:
     """Generates a generic pattern given a value and a generalization language."""
 
-    def __init__(self, alpha: str = 'type', digit: str = 'type', other: str = 'type'):
+    def __init__(self, alpha: str = 'type', digit: str = 'type', other: str = 'type',
+                 preserve_space: bool = False, add_length: bool = True):
         self.alpha = alpha
         self.digit = digit
         self.other = other
+        self.preserve_space= preserve_space
+        self.add_length = add_length
 
     def __call__(self, value: Any) -> str:
         pattern = ''
-        value = list(str(value))
+        try:
+            value = re.split(r'(\s+)', value) if self.preserve_space else list(str(value))
+        except:
+            print(value)
+            raise Exception
 
         for c in value:
             pattern += self._get_representation(c)
 
         grouped_pattern = [''.join(g) for _, g in groupby(pattern)]
 
-        return ''.join([f'{v[0]}({len(v)})' for v in grouped_pattern])
+        if self.add_length:
+            return ''.join([f'{v[0]}({len(v)})' for v in grouped_pattern])
+
+        return ''.join(grouped_pattern)
 
     def _get_representation(self, c: str):
         if c.isalpha():
