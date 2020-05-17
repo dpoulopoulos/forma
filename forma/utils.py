@@ -23,11 +23,7 @@ class PatternGenerator:
 
     def __call__(self, value: Any) -> str:
         pattern = ''
-        try:
-            value = re.split(r'(\s+)', value) if self.preserve_space else list(str(value))
-        except:
-            print(value)
-            raise Exception
+        value = list(str(value))
 
         for c in value:
             pattern += self._get_representation(c)
@@ -37,7 +33,7 @@ class PatternGenerator:
         if self.add_length:
             return ''.join([f'{v[0]}({len(v)})' for v in grouped_pattern])
 
-        return ''.join(grouped_pattern)
+        return ''.join([s[0] for s in grouped_pattern])
 
     def _get_representation(self, c: str):
         if c.isalpha():
@@ -63,6 +59,8 @@ class PatternGenerator:
         return c
 
     def _get_other_representation(self, c: str):
+        if c == ' ':
+            return ' ' if self.preserve_space else ''
         if self.other == 'root':
             return 'A'
         if self.other == 'type':
