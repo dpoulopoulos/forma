@@ -1,6 +1,6 @@
-# Forma
-> Automatic format error detection on tabular data.
+![CI](https://github.com/dpoulopoulos/forma/workflows/CI/badge.svg)
 
+# Forma
 
 Forma is an open-source library, written in python, that enables automatic and domain-agnostic format error detection on tabular data. The library is a by-product of the research project [BigDataStack](https://bigdatastack.eu/).
 
@@ -28,19 +28,6 @@ ratings_df.head()
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -127,19 +114,6 @@ assessed_df.head()
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
