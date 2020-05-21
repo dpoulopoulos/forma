@@ -1,8 +1,6 @@
 ![CI](https://github.com/dpoulopoulos/forma/workflows/CI/badge.svg)
 
 # Forma
-> Automatic format error detection on tabular data.
-
 
 Forma is an open-source library, written in python, that enables automatic and domain-agnostic format error detection on tabular data. The library is a by-product of the research project [BigDataStack](https://bigdatastack.eu/).
 

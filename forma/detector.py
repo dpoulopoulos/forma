@@ -14,8 +14,8 @@ from .utils import PatternGenerator
 
 # Cell
 class FormatDetector:
-    def __init__(self):
-        pass
+    def __init__(self, skip: list = None):
+        self.skip = skip
 
     def fit(self, df: pd.DataFrame, generator: PatternGenerator or List['str': PatternGenerator],
             n: int = 3, dim: int = 1):
@@ -25,6 +25,8 @@ class FormatDetector:
         with tqdm(total=len(self.df.columns)) as pbar:
             if isinstance(generator, PatternGenerator):
                 for col in self.df.columns:
+                    if col in self.skip:
+                        continue
                     col_values = self.df[col].tolist()
                     format_judge = FormatJudge(generator, n, dim)
                     format_judge.fit(col_values)
@@ -32,6 +34,8 @@ class FormatDetector:
                     pbar.update(1)
             else:
                 for col in self.df.columns:
+                    if col in self.skip:
+                        continue
                     col_values = self.df[col].tolist()
                     gen = generator.get(col, PatternGenerator())
                     format_judge = FormatJudge(gen, n, dim)
@@ -46,6 +50,8 @@ class FormatDetector:
             for index, row in self.df.iterrows():
                 tuple_score = []
                 for col in self.df.columns:
+                    if col in self.skip:
+                        continue
                     judge = self.judges[col]
                     score = np.mean(judge(row[col]))
                     tuple_score.append(score)
