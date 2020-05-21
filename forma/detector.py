@@ -39,7 +39,7 @@ class FormatDetector:
                     self.judges[col] = format_judge
                     pbar.update(1)
 
-    def detect(self, reduction: Callable = np.min) -> dict:
+    def detect(self, reduction: Callable = np.min, softmax: bool = True) -> dict:
         scores = []
 
         with tqdm(total=len(self.df)) as pbar:
@@ -47,8 +47,20 @@ class FormatDetector:
                 tuple_score = []
                 for col in self.df.columns:
                     judge = self.judges[col]
-                    tuple_score.append(np.mean(judge(row[col])))
-                scores.append(1 - reduction(tuple_score))
+                    score = np.mean(judge(row[col]))
+                    tuple_score.append(score)
+                if softmax:
+                    tuple_score = np.exp(tuple_score)
+                    softmax_tuple_score = [score / sum(tuple_score) for score in tuple_score]
+                    if reduction == np.ptp:
+                        scores.append(reduction(softmax_tuple_score))
+                    else:
+                        scores.append(1 - reduction(softmax_tuple_score))
+                else:
+                    if reduction == np.ptp:
+                        scores.append(reduction(tuple_score))
+                    else:
+                        scores.append(1 - reduction(tuple_score))
                 pbar.update(1)
         assessed_df = self.df.copy()
         assessed_df['p'] = scores
